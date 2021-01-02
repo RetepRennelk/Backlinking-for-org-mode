@@ -5,7 +5,7 @@
 ;; Author: Peter Klenner <peterklenner@gmx.de>
 ;; Version: 0.0.1
 ;; Keywords: Manual Backlinking for org-files
-;; Homepage: 
+;; Homepage: https://github.com/RetepRennelk/pk-backlinking
 
 ;; Package-Requires: ((emacs "25") (org "9") (ox-json "0.2"))
 
@@ -32,16 +32,23 @@
   (let ((dir (projectile-project-root)))
     (directory-files-recursively dir "\\.org$")))
 
-(defun pk-bl--process-link ()
-  (let ((id (eos/org-custom-id-get))
-        (header (org-get-heading t t))
-	(filename (buffer-file-name)))
-    (format "- [[%s::#%s][%s]]" filename id header)))
+(defun pk-bl--process-link (source_dir)
+  (let* ((id (eos/org-custom-id-get))
+         (header (org-get-heading t t))
+	 (filename (buffer-file-name))
+	 (relative_filename (pk-bl--relative-name filename source_dir)))
+    (format "- [[%s::#%s][%s]]" relative_filename id header)))
+
+(defun pk-bl--relative-name (target source_dir)
+  (concat "./"
+	  (file-relative-name target
+			      source_dir)))
 
 (defun pk-bl ()
   "Insert backlinks to the current headline under a new subheadline."
   (interactive)
-  (let ((id (org-entry-get (point) "custom_id")))
+  (let ((id (org-entry-get (point) "custom_id"))
+	(current_dir (file-name-directory (buffer-file-name))))
     (when id
       (org-insert-subheading 1)
       (insert "Backlinks\n")
@@ -51,7 +58,7 @@
 	(org-ql-select
 	  'pk-bl--find-all-org-files
 	  `(link ,id)
-	  :action 'pk-bl--process-link)
+	  :action `(pk-bl--process-link ,current_dir))
 	"\n")))))
 
 (provide 'pk-bl)

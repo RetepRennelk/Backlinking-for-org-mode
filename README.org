@@ -18,7 +18,7 @@ The proposed workflow of ~pk-backlinking~ is to pick-up the custom-id
 of the current headline and search references to it (recursively) in
 the working directory. The references are listed under a new
 sub-headline called 'Backlinks'. The mindset behind this workflow is
-one of telling myself "Please show me all headlines referenceing back
+that of telling oneself "Please show me all headlines referenceing back
 to the current headline."
 
 * Purpose
@@ -43,8 +43,11 @@ Under any org heading invoke
 
 * Idiosynchrasies
 
-- A ~.projectile~ MUST be present in the root directory, since it is the starting point for recursively searching for org-files.
+- Tested and developed under Windows 10
+
+- A ~.projectile~ file MUST be present in the root directory, since it
+  is the starting point for recursively searching for org-files.
 
 - Linking is based on the CUSTOM_ID property.
 
-- Use ~org-ql-select~ to find backlinks.
+- Uses ~org-ql-select~ to find backlinks.
