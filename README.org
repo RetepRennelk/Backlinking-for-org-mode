@@ -33,7 +33,7 @@ Add all backlinks to a headline under a new sub-headline called
       :load-path "path/to/package/pk-backlinking")
 #+end_src
 
-** Required modifications
+** Required modification
 
 Ensure that the following has been loaded during initialization:
 

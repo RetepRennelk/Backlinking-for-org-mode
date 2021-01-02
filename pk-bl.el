@@ -33,7 +33,7 @@
     (directory-files-recursively dir "\\.org$")))
 
 (defun pk-bl--process-link (source_dir)
-  (let* ((id (eos/org-custom-id-get))
+  (let* ((id (eos/org-custom-id-get nil 'create))
          (header (org-get-heading t t))
 	 (filename (buffer-file-name))
 	 (relative_filename (pk-bl--relative-name filename source_dir)))
