@@ -1,0 +1,50 @@
+* Background
+
+Backlinking and connected thinking tools have seen a hype in 2020. But
+all tools come with caveats and design decisions from other
+people. Emacs seems to be the wisest choice for a platform to build a
+malleable tool. With org-mode, a near perfect text-based local-first
+note-taking solution already exists.
+
+The automatic back-linking offered by programs such as RoamResearch,
+RemNote, and Obsidian is a very enticing feature which can be
+replicated in principle by a recursive grep. org-roam replicates much
+of RoamResearch based on support by a sqlite database. But its
+implementation is not stable, yet, and design decision such as one
+note per file and the backlinking sidebar may not be to everybody's
+liking.
+
+The proposed workflow of ~pk-backlinking~ is to pick-up the custom-id
+of the current headline and search references to it (recursively) in
+the working directory. The references are listed under a new
+sub-headline called 'Backlinks'. The mindset behind this workflow is
+one of telling myself "Please show me all headlines referenceing back
+to the current headline."
+
+* Purpose
+
+Add all backlinks to a headline under a new sub-headline called
+'Backlinks'.
+
+* Installation
+
+#+begin_src emacs-lisp
+    (use-package pk-bl
+      :load-path "path/to/package/pk-backlinking")
+#+end_src
+
+* Usage 
+
+Under any org heading invoke
+
+#+begin_src emacs-lisp
+ pk-bl
+#+end_src
+
+* Idiosynchrasies
+
+- A ~.projectile~ MUST be present in the root directory, since it is the starting point for recursively searching for org-files.
+
+- Linking is based on the CUSTOM_ID property.
+
+- Use ~org-ql-select~ to find backlinks.
