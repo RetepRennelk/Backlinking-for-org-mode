@@ -38,7 +38,7 @@ Add all backlinks to a headline under a new sub-headline called
 Under any org heading invoke
 
 #+begin_src emacs-lisp
- pk-bl
+ M-x pk-bl
 #+end_src
 
 * Idiosynchrasies
