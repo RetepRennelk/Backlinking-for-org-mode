@@ -1,4 +1,4 @@
-;;; pk-bl.el --- Elisp code for the pk-bl Python package  -*- lexical-binding: t; -*-
+;;; pk-bl.el --- Elisp code for the pk-bl package  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2021 Peter Klenner
 
