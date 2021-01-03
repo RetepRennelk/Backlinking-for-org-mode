@@ -70,18 +70,59 @@ Under any org heading invoke
 #+end_src
 
 * Example
-~./path/to/file1.org~
+The heading in ~./path/to/file1.org~ carries a custom-id.
 #+begin_example
   ,* Heading A in file1
+  :PROPERTIES:
+  :CUSTOM_ID: 8d67362e-aef3-4a0a-9f9c-b74170d3be11
+  :END:
+
+  <Use M-x pk-bl here>
+
   ,* Heading B in file1
   ,* Heading C in file1
 #+end_example
-~./path/to/assets/file2.org~
+
+In ~./path/to/assets/file2.org~, the custom-id is referenced (~org-store-link~ and ~org-insert-link~ are used for that).
 #+begin_example
   ,* Heading A in file2
+  ,** Sub-Heading
+  ,*** Leaf
+  [[file:path/to/file1.org::#8d67362e-aef3-4a0a-9f9c-b74170d3be11][Heading A in file1]]
   ,* Heading B in file2
   ,* Heading C in file2
 #+end_example
+
+The modified ~./path/to/file1.org~ _after_ calling ~M-x pk-bl~ inserts the backlinks, i.e.,
+#+begin_example
+  ,* Heading A in file1
+  :PROPERTIES:
+  :CUSTOM_ID: 8d67362e-aef3-4a0a-9f9c-b74170d3be11
+  :END:
+
+  ,** Backlinks
+  - Heading A in file2
+    - Sub-Heading
+      - [[path/to/assets/file2.org::#4eb1e621-4b6e-44e9-a4f9-5a5b4c3416b9][Leaf]]
+
+  ,* Heading B in file1
+  ,* Heading C in file1
+#+end_example
+
+As a result, the newly referenced Leaf-heading in ~./path/to/assets/file2.org~ will carry a new custom-id. The modified ~./path/to/assets/file2.org~ becomes
+#+begin_example
+  ,* Heading A in file2
+  ,** Sub-Heading
+  ,*** Leaf
+  :PROPERTIES:
+  :CUSTOM_ID: 4eb1e621-4b6e-44e9-a4f9-5a5b4c3416b9
+  :END:
+  [[file:path/to/file1.org::#8d67362e-aef3-4a0a-9f9c-b74170d3be11][Heading A in file1]]
+  ,* Heading B in file2
+  ,* Heading C in file2
+#+end_example
+
+
 * Idiosynchrasies
 
 - Tested and developed under Windows 10
