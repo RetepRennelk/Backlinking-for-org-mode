@@ -28,6 +28,30 @@
 
 ;;; Code:
 
+(defun pk-bl--list-to-indented-list (lst &optional level)
+  (if (= (length lst) 0)
+      ""
+    (let ((level (or level 0))
+	  (L (length lst)))
+      (concat
+       (pk-bl--list-prefix level)
+       (format "%s\n" (car lst))
+       (pk-bl--list-to-indented-list (cdr lst) (1+ level))))))
+
+(defun pk-bl--list-prefix (indent_level &optional prefix)
+  "
+(list-prefix 0) yields '- '
+(list-prefix 1) yields '  - '
+(list-prefix 2) yields '    - '
+(list-prefix 0 \"+\") yields '+ '
+(list-prefix 1 \"+\") yields '  + '
+(list-prefix 2 \"+\") yields '    + '
+"
+  (let ((prefix (or prefix "-")))
+    (concat 
+     (make-string (* 2 indent_level) (string-to-char  " "))
+     (concat prefix " "))))
+
 (defun pk-bl--find-all-org-files ()
   (let ((dir (projectile-project-root)))
     (directory-files-recursively dir "\\.org$")))
@@ -36,8 +60,11 @@
   (let* ((id (eos/org-custom-id-get nil 'create))
          (header (org-get-heading t t))
 	 (filename (buffer-file-name))
-	 (relative_filename (pk-bl--relative-name filename source_dir)))
-    (format "- [[%s::#%s][%s]]" relative_filename id header)))
+	 (relative_filename (pk-bl--relative-name filename source_dir))
+	 (parents (org-get-outline-path))
+	 (child (format "[[%s::#%s][%s]]" relative_filename id header))
+	 (parents (append parents (list child))))
+    (pk-bl--list-to-indented-list parents)))
 
 (defun pk-bl--relative-name (target source_dir)
   (concat "./"
@@ -53,12 +80,10 @@
       (org-insert-subheading 1)
       (insert "Backlinks\n")
       (insert
-       (mapconcat
-	#'identity
+       (string-join
 	(org-ql-select
 	  'pk-bl--find-all-org-files
 	  `(link ,id)
-	  :action `(pk-bl--process-link ,current_dir))
-	"\n")))))
+	  :action `(pk-bl--process-link ,current_dir)))))))
 
 (provide 'pk-bl)
