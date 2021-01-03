@@ -10,7 +10,7 @@ The automatic back-linking offered by programs such as RoamResearch,
 RemNote, and Obsidian is a very enticing feature which can be
 replicated in principle by a recursive grep. org-roam replicates much
 of RoamResearch based on support by a sqlite database. But its
-implementation is not stable, yet, and design decision such as one
+implementation is not stable, yet, and design decisions such as one
 note per file and the backlinking sidebar may not be to everybody's
 liking.
 
