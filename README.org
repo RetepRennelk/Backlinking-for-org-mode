@@ -69,6 +69,19 @@ Under any org heading invoke
  M-x pk-bl
 #+end_src
 
+* Example
+~./path/to/file1.org~
+#+begin_example
+  ,* Heading A in file1
+  ,* Heading B in file1
+  ,* Heading C in file1
+#+end_example
+~./path/to/assets/file2.org~
+#+begin_example
+  ,* Heading A in file2
+  ,* Heading B in file2
+  ,* Heading C in file2
+#+end_example
 * Idiosynchrasies
 
 - Tested and developed under Windows 10
